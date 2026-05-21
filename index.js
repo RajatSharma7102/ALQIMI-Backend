@@ -20,10 +20,27 @@ app.post("/registration", async (req, res) => {
 
     console.log("Data saved:", user);
 
-    res.status(200).json(user);
+    return res.status(200).json({
+      success: true,
+      message: "User registered successfully",
+      data: user,
+    });
   } catch (err) {
-    console.log("Save Error:", err);
-    res.status(500).json(err);
+    console.log("Save Error Code:", err.code);
+    console.log("Save Error Message:", err.message);
+
+    if (err.code === 11000) {
+      return res.status(409).json({
+        success: false,
+        message: "This email can’t be used for registration.",
+      });
+    }
+
+    return res.status(500).json({
+      success: false,
+      message: "Server error",
+      error: err.message,
+    });
   }
 });
 
