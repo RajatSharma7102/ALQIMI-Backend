@@ -12,11 +12,20 @@ mongoose.connect("mongodb://registrationUser:Reg%40123456@ac-vjoi9pr-shard-00-00
   .then(() => console.log("MongoDB Atlas Connected"))
   .catch((err) => console.log(err));
 
-app.post('/registration', (req, res) => {
-    UserModel.create(req.body)
-    .then(users => res.josn(users))
-    .catch(err => res.json(err))
-})
+app.post("/registration", async (req, res) => {
+  try {
+    console.log("Request Body:", req.body);
+
+    const user = await UserModel.create(req.body);
+
+    console.log("Data saved:", user);
+
+    res.status(200).json(user);
+  } catch (err) {
+    console.log("Save Error:", err);
+    res.status(500).json(err);
+  }
+});
 
 app.listen(3001, () => {
     console.log("Server is Running")
