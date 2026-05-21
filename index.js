@@ -12,7 +12,7 @@ mongoose.connect("mongodb://registrationUser:Reg%40123456@ac-vjoi9pr-shard-00-00
   .then(() => console.log("MongoDB Atlas Connected"))
   .catch((err) => console.log(err));
 
-app.post('/signup', (req, res) => {
+app.post('/registration', (req, res) => {
     UserModel.create(req.body)
     .then(users => res.josn(users))
     .catch(err => res.json(err))
